@@ -1,5 +1,7 @@
 # coding=utf-8
+import random
 import smtplib
+import time
 from email.mime.text import MIMEText
 
 import requests
@@ -9,8 +11,8 @@ from email.mime.multipart import MIMEMultipart
 # cookie - 使用浏览器手动登录后，从F12中获取
 userCookie = ''
 
-msg_from = ''  # 发送方邮箱
-passwd = ''  # 就是上面的授权码
+msg_from = '370716264@qq.com'  # 发送方邮箱
+passwd = ''  # qq邮箱的授权码
 to = ['370716264@qq.com']  # 接受方邮箱
 
 current_url = 'https://zhiyou.smzdm.com/user/info/jsonp_get_current'
@@ -47,24 +49,22 @@ def report(content):
 def try_bonus():
     try:
         data = http_request(current_url)
-        if data['checkin']['has_checkin']:
-            info = '%s ：%s 你目前积分：%s，经验值：%s，金币：%s，碎银子：%s，威望：%s，等级：%s，已经签到：%s天' % (
+        if not data['checkin']['has_checkin']:
+            checkin = http_request(checkin_url)['data']
+            print(checkin)
+
+        data = http_request(current_url)
+        info = '%s ：%s 你目前积分：%s，经验值：%s，金币：%s，碎银子：%s，威望：%s，等级：%s，已经签到：%s天' % (
                 data['sys_date'], data['nickname'], data['point'], data['exp'], data['gold'], data['silver'],
                 data['prestige'],
                 data['level'], data['checkin']['daily_checkin_num'])
-        else:
-            checkin = http_request(checkin_url)['data']
-            # print(checkin)
-            info = '%s 目前积分：%s，增加积分：%s，经验值：%s，金币：%s，威望：%s，等级：%s' % (
-                data['nickname'], checkin['point'], checkin['add_point'], checkin['exp'], checkin['gold'],
-                checkin['prestige'],
-                checkin['rank'])
         return info
     except Exception as ex:
         print(ex)
         return "Fail to get bonus. " + str(ex)
 
 
+time.sleep(random.randint(0, 60))
 result = try_bonus()
 print(result)
 report(result)

@@ -1,2 +1,3 @@
 # smzdm_bonus
-get smzdm bonus automatically
+
+自动白嫖smzdm网站签到积分 :)
