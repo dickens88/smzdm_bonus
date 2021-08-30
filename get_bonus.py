@@ -8,12 +8,12 @@ import requests
 import json
 from email.mime.multipart import MIMEMultipart
 
-# cookie - 使用浏览器手动登录后，从F12中获取
+# cookie - can be found from browser with F12
 userCookie = ''
 
-msg_from = '370716264@qq.com'  # 发送方邮箱
-passwd = ''  # qq邮箱的授权码
-to = ['370716264@qq.com']  # 接受方邮箱
+msg_from = '370716264@qq.com'  # sender
+passwd = ''  # qq mail box autherized code
+to = ['370716264@qq.com']  # receiver
 
 current_url = 'https://zhiyou.smzdm.com/user/info/jsonp_get_current'
 checkin_url = 'https://zhiyou.smzdm.com/user/checkin/jsonp_checkin'
@@ -38,7 +38,7 @@ def http_request(url):
 def report(content):
     msg = MIMEMultipart()
     msg.attach(MIMEText(content, 'plain', 'utf-8'))
-    msg['Subject'] = "smzdm签到情况"
+    msg['Subject'] = "smzdm bonue report"
     msg['From'] = msg_from
 
     s = smtplib.SMTP_SSL("smtp.qq.com", 465)
